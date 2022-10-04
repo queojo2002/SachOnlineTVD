@@ -1,0 +1,49 @@
+﻿@model SachOnlineTVD.Models.CHUDE
+
+@{
+    ViewBag.Title = "SỬA CHỦ ĐỀ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>SỬA CHỦ ĐỀ</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MaCD)
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="hidden" size="70" name="iMaCD" value="@Model.MaCD" readonly />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Ngày cập nhật:</label>
+        <div class="col-md-10">
+            <input type="datetime" name="sTenChuDe" required
+                   value="@Model.TenChuDe" />
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="LƯU THÔNG TIN" class="btn btn-default" />
+        </div>
+    </div>
+
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("TRỞ VỀ TRANG QUẢN LÝ CHỦ ĐỀ", "Index")
+</div>

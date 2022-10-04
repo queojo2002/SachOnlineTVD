@@ -171,8 +171,8 @@ namespace SachOnlineTVD.Controllers
         public ActionResult DangXuat()
         {
             FormsAuthentication.SignOut();
-            Session.Abandon();
-            Session.RemoveAll();
+            //Session.Abandon();
+            Session.Remove("TaiKhoan");
             return RedirectToAction("Index", "SachOnline");
         }
     }

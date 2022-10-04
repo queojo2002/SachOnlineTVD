@@ -1,0 +1,87 @@
+﻿@using SachOnlineTVD.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<SachOnlineTVD.Models.DONDATHANG>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align:center;">QUẢN LÝ THÔNG TIN ĐƠN HÀNG</h2>
+
+<p>
+    <a href="@Url.Action("Create", "DonHang")" class="btn btn-warning" role="button">Thêm mới đơn hàng</a>
+</p>
+<table class="table">
+    <tr>
+        <th style="text-align:center">
+            Mã đơn hàng
+        </th>
+        <th style="text-align:center">
+            Mã khách hàng
+        </th>
+        <th style="text-align:center">
+            Ngày đặt
+        </th>
+        <th style="text-align:center">
+            Ngày giao
+        </th>
+        <th style="text-align:center">
+            Tình trạng thanh toán
+        </th>
+        <th style="text-align:center">
+            Tình trạng giao hàng
+        </th>
+
+
+
+        <th style="text-align:center">Hành động</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="text-align:center">
+            <td>
+                @Html.DisplayFor(modelItem => item.MaDonHang)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaKH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayDat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayGiao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DaThanhToan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TinhTrangGiaoHang)
+            </td>
+
+
+
+
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.MaDonHang })" class="btn btn-warning" role="button">Sửa</a>
+                <a href="@Url.Action("Details", new { id = item.MaDonHang })" class="btn btn-primary" role="button">Chi tiết</a>
+                <a href="@Url.Action("Delete", new { id = item.MaDonHang })" class="btn btn-danger" role="button">Xóa</a>
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+@*Tạo iên kết phần trang*@
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+
+<style>
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,46 @@
+﻿@model SachOnlineTVD.Models.DONDATHANG
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align:center">CHI TIẾT ĐƠN ĐẶT HÀNG</h2>
+
+<div>
+    <hr />
+    
+
+
+    <table class="table table-striped table-bordered" style="width:100%;text-align:center">
+        <thead >
+            <tr>
+                <th style="text-align:center">Mã đơn hàng</th>
+                <th style="text-align:center">Tên khách hàng đặt</th>
+                <th style="text-align:center">Số điện thoại</th>
+                <th style="text-align:center">Địa chỉ</th>
+                <th style="text-align:center">Tình trạng thanh toán</th>
+                <th style="text-align:center">Tình trạng giao hàng</th>
+                <th style="text-align:center">Ngày đặt hàng</th>
+                <th style="text-align:center">Ngày giao hàng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.MaDonHang)</td>
+                <td>@ViewBag.MaKH</td>
+                <td>@ViewBag.SDT</td>
+                <td>@ViewBag.DiaChi</td>
+                <td>@Html.DisplayFor(model => model.DaThanhToan)</td>
+                <td>@Html.DisplayFor(model => model.TinhTrangGiaoHang)</td>
+                <td>@Html.FormatValue(Model.NgayDat, "{0:dd/MM/yyyy}")</td>
+                <td>@Html.FormatValue(Model.NgayGiao, "{0:dd/MM/yyyy}")</td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaDonHang }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,88 @@
+﻿@using SachOnlineTVD.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<SachOnlineTVD.Models.KHACHHANG>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align:center;">QUẢN LÝ THÔNG TIN KHÁCH HÀNG</h2>
+<p>
+    <a href="@Url.Action("Create", "KhachHang")" class="btn btn-warning" role="button">Thêm mới khách hàng</a>
+</p>
+
+
+<table class="table">
+    <tr>
+        <th style="text-align:center">
+            Họ tên
+        </th>
+        <th style="text-align:center">
+            Tài khoản
+        </th>
+        <th style="text-align:center">
+            Mật khẩu
+        </th>
+        <th style="text-align:center">
+            Email
+        </th>
+        <th style="text-align:center">
+            Địa chỉ
+        </th>
+        <th style="text-align:center">
+            Điện thoại
+        </th>
+        <th style="text-align:center">
+            Ngày sinh
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="text-align:center">
+            <td>
+                @Html.DisplayFor(modelItem => item.HoTen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaiKhoan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatKhau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DienThoai)
+            </td>
+            <td>
+                @Html.FormatValue(item.NgaySinh, "{0:dd/MM/yyyy}")
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.MaKH })" class="btn btn-warning" role="button">Sửa</a>
+                <a href="@Url.Action("Details", new { id = item.MaKH })" class="btn btn-primary" role="button">Chi tiết</a>
+                <a href="@Url.Action("Delete", new { id = item.MaKH })" class="btn btn-danger" role="button">Xóa</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+@*Tạo iên kết phần trang*@
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+
+<style>
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+</style>

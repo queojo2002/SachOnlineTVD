@@ -60,7 +60,7 @@ namespace SachOnlineTVD.Models
     #endregion
 		
 		public dbSachOnlineDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SachOnlineConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SachOnlineConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

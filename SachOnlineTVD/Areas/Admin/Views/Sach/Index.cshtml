@@ -15,16 +15,16 @@
 }
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Quản lý sách";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 
 <h2 style="text-align:center;">QUẢN LÝ THÔNG TIN SÁCH</h2>
-
 <p>
-    @Html.ActionLink("Thêm mới", "Create")
+    <a href="@Url.Action("Create", "Sach")" class="btn btn-warning" role="button">Thêm mới sách</a>
 </p>
+
 <table class="table">
     <tr>
         <th style="text-align:center;width:140px">
@@ -51,12 +51,12 @@
         <th style="text-align:center;width:100px">
             Nhà xuất bản
         </th>
-        <th style="text-align:center"></th>
+        <th style="text-align:center">Hành động</th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr style="text-align:center;">
             <td>
                 @*Sử dụng helper để cắt TenSach lấy 50 ký tự*@ @Truncate(item.TenSach, 50)
             </td>
@@ -84,7 +84,6 @@
             </td>
 
             <td>
-                <a href="@Url.Action("Create", "Sach")" class="btn btn-warning" role="button">Thêm</a>
                 <a href="@Url.Action("Edit", new { id = item.MaSach })" class="btn btn-warning" role="button">Sửa</a>
                 <a href="@Url.Action("Details", new { id = item.MaSach })" class="btn btn-primary" role="button">Chi tiết</a>
                 <a href="@Url.Action("Delete", new { id = item.MaSach })" class="btn btn-danger" role="button">Xóa</a>
