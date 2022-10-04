@@ -1,0 +1,45 @@
+﻿@model SachOnlineTVD.Models.NHAXUATBAN
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
+        <h3>Bạn có chắc chắn muốn xóa Nhà Xuất Bản này?</h3>
+        <div>
+            <hr />
+            <table style="text-align:center" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">Tên nhà xuất bản</th>
+                        <th style="text-align:center">Địa chỉ</th>
+                        <th style="text-align:center">Điện thoại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.TenNXB)</td>
+                        <td>@Html.DisplayFor(model => model.DiaChi)</td>
+                        <td>@Html.DisplayFor(model => model.DienThoai)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <center>
+                @using (Html.BeginForm("Delete", "NhaXuatBan"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.MaNXB)
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Xóa nhà xuất bản này !!!" class="btn btn-default" />
+                    </div>
+                }
+            </center>
+        </div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

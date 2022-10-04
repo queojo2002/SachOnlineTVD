@@ -1,0 +1,94 @@
+﻿@using SachOnlineTVD.Models
+@model List<GioHang>
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+    <h2 style="text-align:center;">THÔNG TIN GIỎ HÀNG</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Tên Sách</th>
+                <th>Số Lượng</th>
+                <th class="text-center">Đơn Giá</th>
+                <th class="text-center">Thành Tiền</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-sm-8 col-md-6">
+                        <div class="media">
+                            <a class="thumbnail pull-left" href="#"> <img class="media-object" src="~/Images/@item.sAnhBia" style="width: 72px; height: 72px;"> </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#">@item.sTenSach</a></h4><br />
+                                <h5 class="media-heading">Mã sách: @item.iMaSach</h5>
+                            </div>
+                        </div>
+                    </td>
+                    @using (Html.BeginForm("CapNhatGioHang", "GioHang", new { iMaSach = item.iMaSach }))
+                    {
+                        <td class="col-sm-1 col-md-1" style="text-align: center">
+                            <input type="number" min="1" name="txtSoLuong" value="@item.iSoLuong" />
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>@string.Format("{0:#,##0,0}", @item.dDonGia)</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>@string.Format("{0:#,##0,0}", @item.dThanhTien)</strong></td>
+                        <td class="col-sm-1 col-md-1">
+                            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("BookDetail","SachOnline", new { id = item.iMaSach})'">
+                                <span class="glyphicon glyphicon-eye-open"></span> Xem chi tiết
+                            </button>
+
+                            <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("XoaSPKhoiGiohang", "GioHang", new{ @iMaSach = item.iMaSach})'">
+                                <span class="glyphicon glyphicon-remove"></span> Xóa SP Này
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-edit"></span> Cập Nhật
+                            </button>
+                        </td>
+                    }
+
+
+                </tr>
+            }
+            <tr>
+                <td>   </td>
+                <td>   </td>
+                <td>   </td>
+                <td><h5>Phí vận chuyển</h5></td>
+                <td class="text-right"><h5><strong>@string.Format("{0:#,##0,0}", 0) VNĐ</strong></h5></td>
+            </tr>
+            <tr>
+                <td>   </td>
+                <td>   </td>
+                <td>   </td>
+                <td><h3>Tổng Tiền</h3></td>
+                <td class="text-right"><h3><strong>@string.Format("{0:#,##0,0}", @ViewBag.TongTien) VNĐ</strong></h3></td>
+            </tr>
+            <tr>
+                <td>   </td>
+                <td>   </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="location.href = '@Url.Action("XoaGioHang", "GioHang")'">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>  Xóa giỏ hàng
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default" onclick="location.href = '@Url.Action("Index", "SachOnline")'">
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Go home!!
+                    </button>
+                </td>
+                <td>
+                    <button type="button" onclick="location.href = '@Url.Action("DatHang","GioHang")'" class="btn btn-success">
+                        Đặt hàng <span class="glyphicon glyphicon-play"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

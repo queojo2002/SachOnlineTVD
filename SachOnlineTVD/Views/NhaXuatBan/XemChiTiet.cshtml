@@ -1,0 +1,41 @@
+﻿@model SachOnlineTVD.Models.NHAXUATBAN
+
+@{
+    ViewBag.Title = "Xem Chi Tiết NXB";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+    <h2 class="text-center">Chi Tiết Nhà Xuất Bản</h2>
+    <hr>
+    <table style="text-align:center" class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align:center">Tên nhà xuất bản</th>
+                <th style="text-align:center">Địa chỉ</th>
+                <th style="text-align:center">Điện thoại</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TenNXB)</td>
+                <td>@Html.DisplayFor(model => model.DiaChi)</td>
+                <td>@Html.DisplayFor(model => model.DienThoai)</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="center1111">
+        <p style="text-align:center">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.MaNXB }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+    </div>
+
+
+
+
+</div>

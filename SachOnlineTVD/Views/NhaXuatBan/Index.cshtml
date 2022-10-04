@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SachOnlineTVD.Models.NHAXUATBAN>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+    <h2 class="text-center">Nhà Xuất Bản</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenNXB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DienThoai)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenNXB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiaChi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DienThoai)
+                </td>
+                <td>
+                    @Html.ActionLink("Thêm", "Add", new { id = item.MaNXB }) |
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.MaNXB }) |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.MaNXB }) |
+                    <a href="/NhaXuatBan/XemChiTiet?id=@item.MaNXB">
+                        Xem Chi Tiết
+                    </a>
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
