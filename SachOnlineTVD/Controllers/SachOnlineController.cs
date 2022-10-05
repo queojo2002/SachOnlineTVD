@@ -85,7 +85,10 @@ namespace SachOnlineTVD.Controllers
             var listsachbn = SachBanNhieu(6);
             return PartialView(listsachbn);
         }
+        
 
+
+        
         public ActionResult NavPartial()
         {
             return PartialView();
@@ -113,7 +116,19 @@ namespace SachOnlineTVD.Controllers
             return PartialView("LoginLogoutPartial");
         }
 
+        public ActionResult Menu_Dong()
+        {
+            var kq = from s in data.MENUs
+                   orderby s.OrderNumber
+                   select s;
+            return PartialView("Menu_DongParial", kq);
+        }
 
+        public List<MENU> Get_ParentID(int id)
+        {
+            var kq = from s in data.MENUs where s.ParentID == id select s;
+            return kq.ToList();
+        }
 
     }
 }

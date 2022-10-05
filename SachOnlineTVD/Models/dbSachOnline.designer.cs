@@ -48,6 +48,9 @@ namespace SachOnlineTVD.Models
     partial void InsertKHACHHANG(KHACHHANG instance);
     partial void UpdateKHACHHANG(KHACHHANG instance);
     partial void DeleteKHACHHANG(KHACHHANG instance);
+    partial void InsertMENU(MENU instance);
+    partial void UpdateMENU(MENU instance);
+    partial void DeleteMENU(MENU instance);
     partial void InsertNHAXUATBAN(NHAXUATBAN instance);
     partial void UpdateNHAXUATBAN(NHAXUATBAN instance);
     partial void DeleteNHAXUATBAN(NHAXUATBAN instance);
@@ -134,6 +137,14 @@ namespace SachOnlineTVD.Models
 			get
 			{
 				return this.GetTable<KHACHHANG>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MENU> MENUs
+		{
+			get
+			{
+				return this.GetTable<MENU>();
 			}
 		}
 		
@@ -1396,6 +1407,164 @@ namespace SachOnlineTVD.Models
 		{
 			this.SendPropertyChanging();
 			entity.KHACHHANG = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MENU")]
+	public partial class MENU : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _MenuName;
+		
+		private string _MenuLink;
+		
+		private System.Nullable<int> _ParentID;
+		
+		private System.Nullable<int> _OrderNumber;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnMenuNameChanging(string value);
+    partial void OnMenuNameChanged();
+    partial void OnMenuLinkChanging(string value);
+    partial void OnMenuLinkChanged();
+    partial void OnParentIDChanging(System.Nullable<int> value);
+    partial void OnParentIDChanged();
+    partial void OnOrderNumberChanging(System.Nullable<int> value);
+    partial void OnOrderNumberChanged();
+    #endregion
+		
+		public MENU()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuName", DbType="NVarChar(50)")]
+		public string MenuName
+		{
+			get
+			{
+				return this._MenuName;
+			}
+			set
+			{
+				if ((this._MenuName != value))
+				{
+					this.OnMenuNameChanging(value);
+					this.SendPropertyChanging();
+					this._MenuName = value;
+					this.SendPropertyChanged("MenuName");
+					this.OnMenuNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuLink", DbType="NVarChar(100)")]
+		public string MenuLink
+		{
+			get
+			{
+				return this._MenuLink;
+			}
+			set
+			{
+				if ((this._MenuLink != value))
+				{
+					this.OnMenuLinkChanging(value);
+					this.SendPropertyChanging();
+					this._MenuLink = value;
+					this.SendPropertyChanged("MenuLink");
+					this.OnMenuLinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentID", DbType="Int")]
+		public System.Nullable<int> ParentID
+		{
+			get
+			{
+				return this._ParentID;
+			}
+			set
+			{
+				if ((this._ParentID != value))
+				{
+					this.OnParentIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParentID = value;
+					this.SendPropertyChanged("ParentID");
+					this.OnParentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderNumber", DbType="Int")]
+		public System.Nullable<int> OrderNumber
+		{
+			get
+			{
+				return this._OrderNumber;
+			}
+			set
+			{
+				if ((this._OrderNumber != value))
+				{
+					this.OnOrderNumberChanging(value);
+					this.SendPropertyChanging();
+					this._OrderNumber = value;
+					this.SendPropertyChanged("OrderNumber");
+					this.OnOrderNumberChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
