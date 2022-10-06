@@ -13,9 +13,9 @@ namespace SachOnlineTVD.Controllers
     {
         dbSachOnlineDataContext data = new dbSachOnlineDataContext();
 
-        private List<SACH> LaySachMoi(int count)
+        private List<SACH> LaySachMoi()
         {
-            return data.SACHes.OrderByDescending(a => a.NgayCapNhat).Take(count).ToList();
+            return data.SACHes.OrderByDescending(a => a.NgayCapNhat).ToList();
         }
 
 
@@ -30,7 +30,7 @@ namespace SachOnlineTVD.Controllers
         {
             int iSize = 6;
             int iPageNum = (page ?? 1);
-            var listsachmoi = LaySachMoi(20);
+            var listsachmoi = LaySachMoi();
             return View(listsachmoi.ToPagedList(iPageNum, iSize));
         }
 
@@ -80,15 +80,13 @@ namespace SachOnlineTVD.Controllers
         }
 
 
-        public ActionResult SachBanNhieuPartial()
+        public ActionResult SachBanNhieuPartial(int? page_sachbn)
         {
-            var listsachbn = SachBanNhieu(6);
+            int iPageNum = (page_sachbn ?? 1);
+            var listsachbn = SachBanNhieu(iPageNum);
             return PartialView(listsachbn);
         }
-        
 
-
-        
         public ActionResult NavPartial()
         {
             return PartialView();
@@ -116,19 +114,7 @@ namespace SachOnlineTVD.Controllers
             return PartialView("LoginLogoutPartial");
         }
 
-        public ActionResult Menu_Dong()
-        {
-            var kq = from s in data.MENUs
-                   orderby s.OrderNumber
-                   select s;
-            return PartialView("Menu_DongParial", kq);
-        }
 
-        public List<MENU> Get_ParentID(int id)
-        {
-            var kq = from s in data.MENUs where s.ParentID == id select s;
-            return kq.ToList();
-        }
 
     }
 }

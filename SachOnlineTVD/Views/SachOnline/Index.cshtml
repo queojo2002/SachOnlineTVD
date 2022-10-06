@@ -12,7 +12,7 @@
     <h2 class="text-center">SÁCH MỚI</h2>
     <hr>
 
-
+    @ViewBag.SBN
     <div class="row text-center">
         @{
             int i = 0;
@@ -55,6 +55,42 @@
 </div>
 
 
+</div>
+
+
+
+
+<form>
+    <div class="form-group">
+        <label for="sachbannhieu_ajax">Chọn số sách bán nhiều cần hiển thị</label>
+        <select onchange="_GetSachBanNhieu()" class="form-control" id="sachbannhieu_ajax">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="0">Không hiển thị</option>
+        </select>
+    </div>
+</form>
+
+<script>
+    _GetSachBanNhieu(5);
+    function _GetSachBanNhieu() {
+        var sachbannhiu = document.getElementById("sachbannhieu_ajax").value;
+        if (sachbannhiu == 0) {
+            $('#partial-load').empty();
+        } else {
+            $(document).ready(function () {
+                $('#partial-load').load('/SachOnline/SachBanNhieuPartial?page_sachbn=' + sachbannhiu);
+            });
+        }
+
+    }
+
+</script>
+
 @section SachBanNhieu {
-    @Html.Action("SachBanNhieuPartial", "SachOnline");
+    <div id="partial-load"></div>
 }

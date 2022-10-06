@@ -19,6 +19,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+
             return View();
         }
         [HttpPost]
@@ -31,7 +32,8 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             {
                 Session["Admin"] = ad;
                 return RedirectToAction("Index", "Home");
-            }else
+            }
+            else
             {
                 ViewBag.ThongBao = "Tài khoản hoặc mật khẩu khum chính xác!!";
             }
