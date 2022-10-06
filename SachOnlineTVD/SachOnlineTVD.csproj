@@ -340,6 +340,7 @@
     <Content Include="Views\GioHang\XacNhanDonHang.cshtml" />
     <Content Include="Views\SachOnline\LoginLogoutPartial.cshtml" />
     <Content Include="tinymce\langs\README.md" />
+    <Content Include="Views\SachOnline\Menu_Dong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
