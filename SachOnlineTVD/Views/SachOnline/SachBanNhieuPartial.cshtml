@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<SachOnlineTVD.Models.SACH>
+﻿@model IEnumerable<SachOnlineTVD.Models.SACH>
 @helper Truncate(string s, int length)
 {
     if (s.Length < length)
@@ -14,60 +13,119 @@
 }
 
 <div class="container">
-
-
+    <form>
+        <div class="form-group">
+            <label for="sachbannhieu_ajax">Chọn số sách bán nhiều cần hiển thị</label>
+            <select  class="form-control" id="sachbannhieu_ajax">
+                <option value="6">6</option>>
+                <option value="12">12</option>
+                <option value="18">18</option>
+                <option value="24">24</option>
+                <option value="0">Không hiển thị</option>
+            </select>
+        </div>
+    </form>
+    <hr />
     <h2 class="text-center">SÁCH BÁN NHIỀU</h2>
-
-
-    <div class="row">
-        @{
-            int count = 0;
-
-        }
-
-
-        @foreach (var sach in Model)
-        {
-            count++;
-            //if (count <= 3)
-            //{
-            <div class="col-lg-6 col-md-6">
-
-                <div class="media-object-default">
-                    <div class="media">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object imgsachbannhieu" src="~/Images/@sach.AnhBia" alt="placeholder image">
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">@sach.TenSach</h4>
-                            <p class="mota"> @Truncate(sach.MoTa, 150)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            //}
-            /*
-            else {
-                <div class="col-lg-6 col-md-6">
-                    <div class="media-object-default">
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object imgsachbannhieu" src="~/Images/TH007.jpg" alt="placeholder image">
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">Tên sản phẩm 4</h4> Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm. Mô tả chi tiết sản phẩm.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-            */
-        }
+    <div class="row" id="list_sach">
     </div>
-    <!-- row-->
     <hr>
 </div>
+
+<nav id ="phantrang_sachbn" class="text-center" aria-label="Page navigation example">
+    <ul class="pagination" id="load-pagination">
+    </ul>
+</nav>
+
+
+<script>
+    $('#sachbannhieu_ajax').on('change', function () {
+        if (this.value == 0) {
+            $('#list_sach').empty();
+            $('#load-pagination').empty();
+
+        }
+        load_phantrang(this.value, 1)
+    });
+
+    function strip(html) {
+        let doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    }
+        //function load pagination
+    function load_phantrang(pageSize, page) {
+            $.ajax({
+                url: '@Url.Action("SachBanNhieu_Ajax", "SachOnline")',
+                type: "GET",
+                data: { pageSize: pageSize, page: page},
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                success: function (result) {
+                    console.log(result);
+                    var str = "";
+                    
+                    $.each(result.data, function (index, value) {
+                        var shortText = jQuery.trim(value.MoTa).substring(0, 170)
+                            .split(" ").slice(0, -1).join(" ") + "...";
+                        str += '<div class="col-lg-6 col-md-6">';
+                        str += '<div class="media-object-default">';
+                        str += '<div class="media">';
+                        str += '<div class="media-left">';
+                        str += '<a href="#">';
+                        str += '<img class="media-object imgsachbannhieu" src="../Images/' + (value.AnhBia) + '" alt="placeholder image">';
+                        str += '</a>';
+                        str += '</div>';
+                        str += '<div class="media-body">';
+                        str += '<h4 class="media-heading">' + (value.TenSach) + '</h4>';
+                        str += '<p class="mota"> ' + strip(shortText) + '</p>';
+                        str += '</div>';
+                        str += '</div>';
+                        str += '</div>';
+                        str += '</div>';
+                        //create pagination
+                        var pagination_string = "";
+                        var pageCurrent = result.pageCurrent;
+                        var numSize = result.numSize;
+                        if (pageCurrent > 1) {
+                            var pagePrevious = pageCurrent - 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + pagePrevious + '>Previous</a></li>';
+                        }
+                        for (i = 1; i <= numSize; i++) {
+                            if (i == pageCurrent) {
+                                pagination_string += '<li class="page-item active"><a href="" class="page-link" data-page=' + i + '>' + pageCurrent + '</a></li>';
+                            } else {
+                                pagination_string += '<li class="page-item"><a href="" class="page-link" data-page=' + i + '>' + i + '</a></li>';
+                            }
+                        }
+                        //create button next
+                        if (pageCurrent > 0 && pageCurrent < numSize) {
+                            var pageNext = pageCurrent + 1;
+                            pagination_string += '<li class="page-item"><a href="" class="page-link"  data-page=' + pageNext + '>Next</a></li>';
+                        }
+
+                        //load pagination
+                        $("#load-pagination").html(pagination_string);
+
+
+
+                    });
+
+                    //load str to class="load-list"
+                    $("#list_sach").html(str);
+
+
+
+                }
+            });
+        }
+    $("#phantrang_sachbn").on("click", ".pagination li a", function (event) {
+        event.preventDefault();
+        var page = $(this).attr('data-page');
+        load_phantrang(document.getElementById("sachbannhieu_ajax").value, page)
+    });
+    //load init
+    load_phantrang(6,1);
+
+
+
+</script>

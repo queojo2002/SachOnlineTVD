@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using SachOnlineTVD.Models;
 using PagedList;
 using PagedList.Mvc;
+using Newtonsoft.Json;
+
 namespace SachOnlineTVD.Controllers
 {
     public class SachOnlineController : Controller
@@ -80,11 +82,33 @@ namespace SachOnlineTVD.Controllers
         }
 
 
-        public ActionResult SachBanNhieuPartial(int? page_sachbn)
+        public ActionResult SachBanNhieuPartial()
         {
-            int iPageNum = (page_sachbn ?? 1);
-            var listsachbn = SachBanNhieu(iPageNum);
-            return PartialView(listsachbn);
+            return PartialView("SachBanNhieuPartial");
+        }
+
+        [HttpGet]
+        public JsonResult SachBanNhieu_Ajax(int pageSize, int? page)
+        {
+            var get_data = from s in data.SACHes.OrderByDescending(a => a.SoLuongBan)
+                           select new { s.MaSach, s.TenSach, s.MoTa, s.AnhBia };
+            if (page > 0)
+            {
+                page = page;
+            }
+            else
+            {
+                page = 1;
+            }
+            
+            int start = (int)(page - 1) * pageSize;
+            ViewBag.pageCurrent = page;
+            int totalPage = get_data.Count();
+            float totalNumsize = (totalPage / (float)pageSize);
+            int numSize = (int)Math.Ceiling(totalNumsize);
+            ViewBag.numSize = numSize;
+            var dataPost = get_data.Skip(start).Take(pageSize);
+            return Json(new { data = dataPost, pageCurrent = page, numSize = numSize }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult NavPartial()
@@ -127,6 +151,11 @@ namespace SachOnlineTVD.Controllers
             var kq = from s in data.MENUs where s.ParentID == id select s;
             return kq.ToList();
         }
+
+
+      
+
+
 
     }
 }
