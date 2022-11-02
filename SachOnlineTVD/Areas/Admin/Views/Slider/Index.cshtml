@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SachOnlineTVD.Models.Slider>
+
+@{
+    ViewBag.Title = "QUẢN LÝ SLIDER";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align:center;">QUẢN LÝ SLIDER</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Slider")" class="btn btn-warning" role="button">Thêm Slider</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenSlider)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Anh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MoTaSlider)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HienThi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoaiSlider)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSlider)
+            </td>
+            <td style="text-align:center;width:250px">
+                <img class="img-responsive" src="~/Images/Slider/@item.Anh" alt="thumb">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTaSlider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HienThi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiSlider)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.MaSlider })" class="btn btn-warning" role="button">Sửa</a>
+                <a href="@Url.Action("Details", new { id = item.MaSlider })" class="btn btn-primary" role="button">Chi tiết</a>
+                <a href="@Url.Action("Delete", new { id = item.MaSlider })" class="btn btn-danger" role="button">Xóa</a>
+            </td>
+        </tr>
+    }
+
+</table>

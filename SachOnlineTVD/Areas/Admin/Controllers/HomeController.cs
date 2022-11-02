@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SachOnlineTVD.Models;
+using System.IO;
+
+
 namespace SachOnlineTVD.Areas.Admin.Controllers
 {
     public class HomeController : Controller
@@ -13,18 +16,32 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Home/Login");
+            }
             return View();
         }
 
         [HttpGet]
         public ActionResult Login()
         {
-
-            return View();
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("~/Admin/Home/Index");
+            }
         }
+
+
+
         [HttpPost]
         public ActionResult Login(FormCollection f)
         {
+
             var sTenDN = f["UserName"];
             var sMatKhau = f["Password"];
             ADMIN ad = data.ADMINs.SingleOrDefault(n => n.TenDN == sTenDN && n.MatKhau == sMatKhau);

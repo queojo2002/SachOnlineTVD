@@ -4,7 +4,7 @@
     ViewBag.Title = "Thêm sách mới";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
+<script src="~/ckeditor/ckeditor.js"></script>
 <h2 style="text-align:center;">THÊM SÁCH</h2>
 @*Thêm thuộc tính cho form để upload ảnh*@
 @using (Html.BeginForm("Create", "Sach", FormMethod.Post, new { @enctype = "multipart/form-data" }))
@@ -25,7 +25,8 @@
         <div class="form-group">
             <label class="control-label col-md-2">Mô tả:</label>
             <div class="col-md-10">
-<textarea name="sMoTa">@ViewBag.MoTa</textarea>
+                <textarea name="sMoTa" id="mota">@ViewBag.MoTa</textarea>
+                <script>CKEDITOR.replace("mota")</script>
             </div>
         </div>
 

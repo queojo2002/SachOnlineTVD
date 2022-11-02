@@ -74,7 +74,11 @@ namespace SachOnlineTVD.Controllers
         }
 
 
-
+        public ActionResult TrangTin(string metatitle)
+        {
+            var tt = (from t in data.TRANGTINs where t.MetaTitle == metatitle select t).Single();
+            return View(tt);
+        }
         public ActionResult BookDetail(int id)
         {
             var kq = from s in data.SACHes where s.MaSach == id select s;
@@ -100,7 +104,7 @@ namespace SachOnlineTVD.Controllers
             {
                 page = 1;
             }
-            
+
             int start = (int)(page - 1) * pageSize;
             ViewBag.pageCurrent = page;
             int totalPage = get_data.Count();
@@ -111,14 +115,43 @@ namespace SachOnlineTVD.Controllers
             return Json(new { data = dataPost, pageCurrent = page, numSize = numSize }, JsonRequestBehavior.AllowGet);
         }
 
+        [ChildActionOnly]
         public ActionResult NavPartial()
         {
-            return PartialView();
+            List<MENU> lst = new List<MENU>();
+            lst = data.MENUs.Where(m => m.ParentId == null).OrderBy(m => m.OrderNumber).ToList();
+            int[] a = new int[lst.Count()];
+            for (int i = 0; i < lst.Count; i++)
+            {
+                var l = data.MENUs.Where(m => m.ParentId == lst[i].Id);
+                a[i] = l.Count();
+            }
+            ViewBag.lst = a;
+            return PartialView(lst);
         }
+
+        [ChildActionOnly]
+        public ActionResult LoadChildMenu(int parentId)
+        {
+            List<MENU> lst = new List<MENU>();
+            lst = data.MENUs.Where(m => m.ParentId == parentId).OrderBy(m => m.OrderNumber).ToList();
+            ViewBag.Count = lst.Count();
+            int[] a = new int[lst.Count()];
+            for (int i = 0; i < lst.Count; i++)
+            {
+                var l = data.MENUs.Where(m => m.ParentId == lst[i].Id);
+                a[i] = l.Count();
+            }
+            ViewBag.lst = a;
+            return PartialView("LoadChildMenu", lst);
+        }
+
+
 
         public ActionResult SliderPartial()
         {
-            return PartialView();
+            var listSlider = from cd in data.Sliders select cd;
+            return PartialView(listSlider);
         }
 
         public ActionResult ChuDePartial()
@@ -146,14 +179,10 @@ namespace SachOnlineTVD.Controllers
             return PartialView(kq);
         }
 
-        public List<MENU> Get_ParentID(int id)
-        {
-            var kq = from s in data.MENUs where s.ParentID == id select s;
-            return kq.ToList();
-        }
 
 
-      
+
+
 
 
 

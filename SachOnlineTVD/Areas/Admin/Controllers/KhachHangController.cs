@@ -14,7 +14,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
         dbSachOnlineDataContext db = new dbSachOnlineDataContext();
 
         // GET: Admin/KhachHang
- 
+
 
         public ActionResult Index(int? page)
         {
@@ -136,6 +136,10 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Home/Login");
+            }
             var kh = db.KHACHHANGs.SingleOrDefault(n => n.MaKH == id);
             if (kh == null)
             {

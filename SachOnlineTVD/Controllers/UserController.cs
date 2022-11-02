@@ -5,7 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using SachOnlineTVD.Models;
 using System.Web.Security;
-
+using System.Security.Cryptography;
+using System.Text;
 namespace SachOnlineTVD.Controllers
 {
     public class UserController : Controller
@@ -22,6 +23,13 @@ namespace SachOnlineTVD.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult DangKy_Model()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public ActionResult DangNhap()
@@ -143,7 +151,7 @@ namespace SachOnlineTVD.Controllers
             {
                 ViewBag.ThongBao = "Email đã được dùng òi";
             }
-            else
+            else if (ModelState.IsValid)
             {
                 kh.HoTen = sHoTen;
                 kh.TaiKhoan = sTk;
@@ -168,12 +176,73 @@ namespace SachOnlineTVD.Controllers
 
         }
 
+
+
+        [HttpPost]
+        public ActionResult DangKy_Model(FormCollection collection, KHACHHANG kh)
+        {
+            var sHoTen = collection["HoTen"];
+            var sTk = collection["TaiKhoan"];
+            var sMk = collection["MatKhau"];
+            var sMkNl = collection["MatKhauNL"];
+            var sEmail = collection["Email"];
+            var sDiaChi = collection["DiaChi"];
+            var sDienThoai = collection["DienThoai"];
+            var sNgaySinh = String.Format("{0:MM/dd/yyyy}", collection["NgaySinh"]);
+            if (String.IsNullOrEmpty(sMkNl))
+            {
+                ViewData["err4"] = "Phải nhập lại mật khẩu";
+            }
+            else if (sMk != sMkNl)
+            {
+                ViewData["err4"] = "Mật khẩu nhập lại hổng đúng";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == sTk) != null)
+            {
+                ViewBag.ThongBao = "Tài khoản đã được dùng òi";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.Email == sEmail) != null)
+            {
+                ViewBag.ThongBao = "Email đã được dùng òi";
+            }
+            else if (ModelState.IsValid)
+            {
+                kh.HoTen = sHoTen;
+                kh.TaiKhoan = sTk;
+                kh.MatKhau = GetMD5(sMk);
+                kh.Email = sEmail;
+                kh.DiaChi = sDiaChi;
+                kh.DienThoai = sDienThoai;
+                kh.NgaySinh = DateTime.Parse(sNgaySinh);
+                db.KHACHHANGs.InsertOnSubmit(kh);
+                db.SubmitChanges();
+                return Redirect("~/User/DangNhap?id=1");
+            }
+            return this.DangKy();
+        }
+
+
+
         public ActionResult DangXuat()
         {
             FormsAuthentication.SignOut();
             //Session.Abandon();
             Session.Remove("TaiKhoan");
             return RedirectToAction("Index", "SachOnline");
+        }
+
+
+        public static string GetMD5(string str)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] fromdata = Encoding.UTF8.GetBytes(str);
+            byte[] targetdata = md5.ComputeHash(fromdata);
+            string byte2string = null;
+            for (int i = 0; i < targetdata.Length; i++)
+            {
+                byte2string += targetdata[i].ToString("x2");
+            }
+            return byte2string;
         }
     }
 }

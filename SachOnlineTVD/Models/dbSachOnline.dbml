@@ -64,10 +64,10 @@
   </Table>
   <Table Name="dbo.MENU" Member="MENUs">
     <Type Name="MENU">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="MenuName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="MenuLink" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="OrderNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
@@ -97,6 +97,17 @@
       <Association Name="NHAXUATBAN_SACH" Member="NHAXUATBAN" ThisKey="MaNXB" OtherKey="MaNXB" Type="NHAXUATBAN" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Slider" Member="Sliders">
+    <Type Name="Slider">
+      <Column Name="MaSlider" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenSlider" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Anh" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MoTaSlider" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="LienKet" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="HienThi" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiSlider" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.TACGIA" Member="TACGIAs">
     <Type Name="TACGIA">
       <Column Name="MaTG" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -105,6 +116,15 @@
       <Column Name="TieuSu" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="DienThoai" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
       <Association Name="TACGIA_VIETSACH" Member="VIETSACHes" ThisKey="MaTG" OtherKey="MaTG" Type="VIETSACH" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TRANGTIN" Member="TRANGTINs">
+    <Type Name="TRANGTIN">
+      <Column Name="MaTT" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenTrang" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="NgayTao" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="MetaTitle" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

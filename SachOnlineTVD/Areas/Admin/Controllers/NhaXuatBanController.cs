@@ -56,7 +56,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            
+
             if (Session["Admin"] == null || Session["Admin"].ToString() == "")
             {
                 return Redirect("~/Admin/Home/Login");
@@ -128,6 +128,10 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
 
         public ActionResult Details(int id)
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Home/Login");
+            }
             var nxb = db.NHAXUATBANs.SingleOrDefault(n => n.MaNXB == id);
             if (nxb == null)
             {

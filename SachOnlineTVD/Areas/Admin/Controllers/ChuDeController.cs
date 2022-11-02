@@ -84,7 +84,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             return View(chude);
         }
 
-  
+
 
         [HttpGet]
         public ActionResult Delete(int id)
@@ -136,6 +136,12 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             }
             return View(cd);
         }
+
+
+
+
+
+
 
     }
 }

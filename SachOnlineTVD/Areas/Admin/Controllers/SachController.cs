@@ -16,16 +16,30 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
     {
         dbSachOnlineDataContext db = new dbSachOnlineDataContext();
         // GET: Admin/Sach
-        public ActionResult Index(int ? page)
+        public ActionResult Index(int? page, string strSearch)
         {
             if (Session["Admin"] == null || Session["Admin"].ToString() == "")
             {
                 return Redirect("~/Admin/Home/Login");
             }
+            ViewData["strSearch"] = strSearch;
+            ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe), "MaCD", "TenChuDe");
+            ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n => n.MaNXB), "MaNXB", "TenNXB");
             int iPageNum = (page ?? 1);
             int iPageSize = 7;
-            return View(db.SACHes.ToList().OrderBy(n => n.MaSach).ToPagedList(iPageNum,iPageSize));
+            if (!string.IsNullOrEmpty(strSearch))
+            {
+                var kq = from s in db.SACHes where s.TenSach.Contains(strSearch) || s.MoTa.Contains(strSearch) select s;
+                return View(kq.ToList().OrderBy(n => n.MaSach).ToPagedList(iPageNum, iPageSize));
+            }
+            else
+            {
+                return View(db.SACHes.ToList().OrderByDescending(n => n.MaSach).ToPagedList(iPageNum, iPageSize));
+            }
         }
+
+
+
 
         [HttpGet]
         public ActionResult Create()
@@ -34,7 +48,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             {
                 return Redirect("~/Admin/Home/Login");
             }
-            ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe),"MaCD","TenChuDe");
+            ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe), "MaCD", "TenChuDe");
             ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n => n.MaNXB), "MaNXB", "TenNXB");
             return View();
         }
@@ -55,7 +69,8 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
                 ViewBag.GiaBan = f["mGiaBan"];
                 ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe), "MaCD", "TenChuDe", int.Parse(f["MaCD"]));
                 ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n => n.MaNXB), "MaNXB", "TenNXB", int.Parse(f["MaNXB"]));
-            }else
+            }
+            else
             {
                 if (ModelState.IsValid)
                 {
@@ -66,7 +81,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
                         fFileUpload.SaveAs(path);
                     }
                     sach.TenSach = f["sTenSach"];
-                    sach.MoTa = f["sMoTa"].Replace("<p>","").Replace("</p>", "\n");
+                    sach.MoTa = f["sMoTa"].Replace("<p>", "").Replace("</p>", "\n");
                     sach.AnhBia = fFileName;
                     sach.NgayCapNhat = Convert.ToDateTime(f["dNgayCapNhat"]);
                     sach.SoLuongBan = int.Parse(f["iSoLuong"]);
@@ -81,9 +96,13 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             return View();
         }
 
-        
+
         public ActionResult Details(int id)
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Home/Login");
+            }
             var sach = db.SACHes.SingleOrDefault(n => n.MaSach == id);
             if (sach == null)
             {
@@ -108,10 +127,14 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             }
             return View(sach);
         }
-        
+
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirm(int id, FormCollection f)
         {
+            if (Session["Admin"] == null || Session["Admin"].ToString() == "")
+            {
+                return Redirect("~/Admin/Home/Login");
+            }
             var sach = db.SACHes.SingleOrDefault(n => n.MaSach == id);
             if (sach == null)
             {
@@ -123,7 +146,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             {
                 ViewBag.ThongBao = "Sách này đang có trong bảng CTDH <br>" +
                     "Nếu muốn xóa thì phải xóa hết mã sách này trong bảng CTDH";
-             return View(sach);
+                return View(sach);
             }
             var vietsach = db.VIETSACHes.Where(vs => vs.MaSach == id).ToList();
             if (vietsach != null)
@@ -151,7 +174,7 @@ namespace SachOnlineTVD.Areas.Admin.Controllers
             }
             ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe), "MaCD", "TenChuDe", sach.MaCD);
             ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
-            
+
             return View(sach);
         }
 

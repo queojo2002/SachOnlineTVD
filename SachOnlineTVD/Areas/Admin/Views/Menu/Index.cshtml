@@ -1,0 +1,415 @@
+﻿@using SachOnlineTVD.Models
+@using PagedList.Mvc;
+@model IEnumerable<SachOnlineTVD.Models.MENU>
+@{
+    ViewBag.Title = "QUẢN LÝ MENU";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+<style>
+    ul {
+        list-style-type: none;
+    }
+</style>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <p>
+            <a href="@Url.Action("Create", "Menu")" class="btn btn-warning" role="button">Thêm menu Cha</a>
+        </p>
+        <ul class="list-group">
+            @{
+                int i = 0;
+                foreach (var item in Model)
+                {
+                    if (ViewBag.lst[i] != 0)
+                    {
+                        <li class="list-group-item">
+                            <a>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                    <label class="custom-control-label" for="customCheck1">@item.MenuName</label>
+                                </div>
+                            </a>
+                            @Html.Action("LoadChildMenu", "Menu", new { parentId = item.Id })
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">
+                            <a>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                    <label class="custom-control-label" for="customCheck1">@item.MenuName</label>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                    i++;
+                }
+            }
+        </ul>
+    </div>
+
+
+
+
+<div class="col-md-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="thumbnail">
+                    <div class="caption text-center">
+                        <h2 id="Label_Show_MenuName">Bạn đang thao tác trên: </h2>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="thumbnail">
+                        <div class="caption text-center">
+                            <h3 style="color:red" id="Label_Show_MenuName_Add">Thêm menu con</h3>
+                        </div>
+                        <div class="caption card-footer text-center">
+
+                            <form id="Them_Menu_Con">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="MenuName">Tên menu con: </label>
+                                        <input type="text" class="form-control" id="MenuName" placeholder="Trang chủ 1...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="MenuName">Liên kết: </label>
+                                        <input type="text" class="form-control" id="MenuLink" placeholder="SachOnline/Index">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="OrderNumber">Thứ tự hiển thị: </label>
+                                    <input type="number" class="form-control" id="OrderNumber" placeholder="1">
+                                </div>
+                                <button type="button" id="Them_Button" class="btn btn-primary">Xác nhận thêm</button>
+
+                            </form>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="thumbnail">
+
+                        <div class="caption text-center" ">
+                            <h3 style="color:blue" id="Label_Show_MenuName_Edit">Chỉnh sửa Thông Tin Menu</h3>
+                        </div>
+
+                        <div class="caption card-footer text-center">
+
+                            <form id="ChinhSua_Menu_Con">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="MenuName_Edit">Tên menu con: </label>
+                                        <input type="text" class="form-control" id="MenuName_Edit" placeholder="Trang chủ 1...">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="MenuName_Edit">Liên kết: </label>
+                                        <input type="text" class="form-control" id="MenuLink_Edit" placeholder="SachOnline/Index">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="OrderNumber_Edit">Thứ tự hiển thị: </label>
+                                    <input type="number" class="form-control" id="OrderNumber_Edit" placeholder="1">
+                                </div>
+                                <button type="button" id="ChinhSua_Button" class="btn btn-warning">Xác nhận chỉnh sửa</button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="thumbnail">
+                        <div class="caption text-center" ">
+                            <h3 style="color:blue" id="Label_Show_MenuName_Edit">Set Menu Con</h3>
+                        </div>
+
+                        <div class="caption card-footer text-center">
+
+                            <form id="ChinhSua_Menu_Con">
+
+                                <div class="form-group">
+                                    <label for="Text_Set_MenuCon">Bạn muốn Menu Này làm Menu Con của ai: </label>
+                                    <select class="form-control" id="Select_Menu_Cha">
+                                        <option>Chọn menu cha</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="Set_Menu_Cha_Con" class="btn btn-success">Xác nhận Set</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="thumbnail">
+                        <div class="caption text-center" ">
+                            <h3 style="color:blue" id="Label_Show_MenuName_Edit">Set Menu Cha</h3>
+                        </div>
+
+                        <div class="caption card-footer text-center">
+
+                            <button type="button" id ="Set_Menu_Cha" class="btn btn-danger">Set làm Menu Cha</button>
+                            <br /><br /><br /><br />
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+        var ID = "";
+        $("#Label_Show_MenuName").text("Vui lòng tích vào Menu cần thao tác");
+        $('.custom-control-input:checkbox').on('change', function (e) {
+            if ($(this).prop('checked') == true) {
+                ID = $(this).attr('id');
+                Get_Menu_By_ID(ID);
+                Get_List_Menu(ID);
+
+            } else {
+                ID = "";
+                Fill_Edit();
+                $("#Label_Show_MenuName").text("Vui lòng tích vào Menu cần thao tác");
+            }
+            $('input[type="checkbox"]').not(this).prop('checked', false);
+        })
+
+    $('#Them_Button').click(function () {
+
+        if (ID == "") {
+            alert("Vui lòng chọn menu cần thao tác");
+            return;
+        } else if ($("#MenuName").val() == "") {
+            alert("Vui lòng nhập Tên Menu Con");
+            return;
+        } else if ($("#MenuLink").val() == "") {
+            alert("Vui lòng nhập Liên Kết");
+            return;
+        } else if ($("#OrderNumber").val() == "") {
+            alert("Vui lòng nhập Thứ Tự");
+            return;
+        }
+
+        Add_Menu_Con($("#MenuName").val(), $("#MenuLink").val(), ID, $("#OrderNumber").val());
+
+    })
+
+    $('#ChinhSua_Button').click(function () {
+
+        if (ID == "") {
+            alert("Vui lòng chọn menu cần thao tác");
+            return;
+        } else if ($("#MenuName_Edit").val() == "") {
+            alert("Vui lòng nhập Tên Menu Con");
+            return;
+        } else if ($("#MenuLink_Edit").val() == "") {
+            alert("Vui lòng nhập Liên Kết");
+            return;
+        } else if ($("#OrderNumber_Edit").val() == "") {
+            alert("Vui lòng nhập Thứ Tự");
+            return;
+        }
+        Update_Menu(ID, $("#MenuName_Edit").val(), $("#MenuLink_Edit").val(), $("#OrderNumber_Edit").val());
+
+
+    })
+        $('#Set_Menu_Cha').click(function () {
+
+            if (ID == "") {
+                alert("Vui lòng chọn menu cần thao tác");
+                return;
+            }
+            
+            Update_Menu_Con_Cha(ID);
+        })
+
+
+        $('#Set_Menu_Cha_Con').click(function () {
+            var Value_ParentID = $('#Select_Menu_Cha').find(":selected").val();
+            if (ID == "") {
+                alert("Vui lòng chọn menu cần thao tác");
+                return;
+            } else if (Value_ParentID == "") {
+                alert("Vui lòng chọn menu cha");
+                return;
+            }
+            Update_Menu_Cha_Con(ID, Value_ParentID);
+        })
+
+});
+
+    function Get_Menu_By_ID(ID) {
+        $.ajax({
+            url: '@Url.Action("Select_Menu_By_ID", "Menu")',
+            type: 'get',
+            data: { ID: ID },
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    $("#Label_Show_MenuName").text("Bạn đang thao tác trên: " + data.cd.MenuName);
+                    Fill_Edit(data.cd.MenuName, data.cd.MenuLink, data.cd.OrderNumber);
+                }
+            }
+        });
+    }
+
+    function Get_List_Menu(ID) {
+        $.ajax({
+            url: '@Url.Action("Select_Menu", "Menu")',
+            type: 'get',
+            data: {},
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    $('#Select_Menu_Cha').empty().append(new Option('Chọn menu cha',""));
+                    $.each(data.cd, function (k, v) {
+                        if (v.Id != ID) {
+                            $('#Select_Menu_Cha').append($('<option>',
+                                {
+                                    value: v.Id,
+                                    text: v.MenuName
+                                }));
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+
+    function Update_Menu(ID, MenuName, MenuLink, OrderNumber) {
+        $.ajax({
+            url: '@Url.Action("Update_Menu_By_ID", "Menu")',
+            type: 'POST',
+            data: {
+                ID: ID,
+                MenuName: MenuName,
+                MenuLink: MenuLink,
+                OrderNumber: OrderNumber,
+            },
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    alert("Update Menu Con Thành Công");
+                    location.reload(true);
+
+                } else {
+                    alert("Update Menu Con Thất Bại");
+                }
+            }
+        });
+    }
+
+    function Update_Menu_Con_Cha(ID) {
+        $.ajax({
+            url: '@Url.Action("Update_MenuCon_Sang_MenuCha", "Menu")',
+            type: 'POST',
+            data: {
+                ID: ID,
+            },
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    alert("Update Menu Con Lên Menu Cha Thành Công");
+                    location.reload(true);
+
+                } else {
+                    alert("Update Menu Con Lên Menu Cha Thất Bại");
+                }
+            }
+        });
+    }
+
+        function Update_Menu_Cha_Con(ID, ParentID) {
+        $.ajax({
+            url: '@Url.Action("Update_MenuCha_Sang_MenuCon", "Menu")',
+            type: 'POST',
+            data: {
+                ID: ID,
+                ParentID: ParentID,
+            },
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    alert("Update Menu Cha Làm Menu Cha Thành Công");
+                    location.reload(true);
+
+                } else {
+                    alert("Update Menu Cha Làm Menu Con Thất Bại");
+                }
+            }
+        });
+    }
+
+
+    function Add_Menu_Con(MenuName, MenuLink, ParentID, OrderNumber) {
+        $.ajax({
+            url: '@Url.Action("Insert_Menu", "Menu")',
+            type: 'POST',
+            data: {
+                MenuName: MenuName,
+                MenuLink: MenuLink,
+                ParentID: ParentID,
+                OrderNumber: OrderNumber,
+            },
+            cache: false,
+            async: false,
+            success: function (data) {
+                if (data.code == 1) {
+                    alert("Thêm Menu Con Thành Công");
+                    location.reload(true);
+
+                } else {
+                    alert("Thêm Menu Con Thất Bại");
+                }
+            }
+        });
+    }
+
+    function Fill_Edit(MenuName, MenuLink, OrderNumber)
+    {
+        $("#MenuName_Edit").val(MenuName);
+        $("#MenuLink_Edit").val(MenuLink);
+        $("#OrderNumber_Edit").val(OrderNumber);
+    }
+</script>

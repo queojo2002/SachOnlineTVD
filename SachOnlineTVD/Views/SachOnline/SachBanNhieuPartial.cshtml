@@ -16,7 +16,7 @@
     <form>
         <div class="form-group">
             <label for="sachbannhieu_ajax">Chọn số sách bán nhiều cần hiển thị</label>
-            <select  class="form-control" id="sachbannhieu_ajax">
+            <select class="form-control" id="sachbannhieu_ajax">
                 <option value="6">6</option>>
                 <option value="12">12</option>
                 <option value="18">18</option>
@@ -32,7 +32,7 @@
     <hr>
 </div>
 
-<nav id ="phantrang_sachbn" class="text-center" aria-label="Page navigation example">
+<nav id="phantrang_sachbn" class="text-center" aria-label="Page navigation example">
     <ul class="pagination" id="load-pagination">
     </ul>
 </nav>
@@ -63,10 +63,9 @@
                 success: function (result) {
                     console.log(result);
                     var str = "";
-                    
+
                     $.each(result.data, function (index, value) {
-                        var shortText = jQuery.trim(value.MoTa).substring(0, 170)
-                            .split(" ").slice(0, -1).join(" ") + "...";
+                        var shortText = jQuery.trim(value.MoTa).substring(0, 170).split(" ").slice(0, -1).join(" ") + "...";
                         str += '<div class="col-lg-6 col-md-6">';
                         str += '<div class="media-object-default">';
                         str += '<div class="media">';
@@ -82,6 +81,7 @@
                         str += '</div>';
                         str += '</div>';
                         str += '</div>';
+
                         //create pagination
                         var pagination_string = "";
                         var pageCurrent = result.pageCurrent;
@@ -117,7 +117,8 @@
 
                 }
             });
-        }
+    }
+
     $("#phantrang_sachbn").on("click", ".pagination li a", function (event) {
         event.preventDefault();
         var page = $(this).attr('data-page');
