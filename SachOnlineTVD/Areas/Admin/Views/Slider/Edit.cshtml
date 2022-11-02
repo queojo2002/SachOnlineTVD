@@ -10,74 +10,200 @@
 <script src="~/ckeditor/ckeditor.js"></script>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Slider</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MaSlider)
+<link rel="stylesheet" href="https://fengyuanchen.github.io/cropper/css/cropper.css">
+<script src="https://fengyuanchen.github.io/cropper/js/cropper.js"></script>
+<style>
+    /* Ensure the size of the image fit the container perfectly */
+  
+</style>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.TenSlider, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TenSlider, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenSlider, "", new { @class = "text-danger" })
-            </div>
+
+
+<div class="col-md-12">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <img id="image" src="~/Images/Slider/4.jpg">
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Anh, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Anh, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MoTaSlider, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MoTaSlider, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MoTaSlider, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LienKet, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LienKet, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LienKet, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HienThi, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.HienThi)
-                    @Html.ValidationMessageFor(model => model.HienThi, "", new { @class = "text-danger" })
+        <div class="col-sm-12">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3 style="color:red" id="Label_Show_MenuName_Add">Thông tin hình ảnh</h3>
+                </div>
+                <div class="caption card-footer text-center">
+                    <form>
+                        <div class="form-group">
+                            <label for="MenuName">Chiều dài: </label>
+                            <input type="number" class="form-control" id="width">
+                        </div>
+                        <div class="form-group">
+                            <label for="MenuName">Chiều rộng: </label>
+                            <input type="number" class="form-control" id="height">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+        <hr />
+        <div class="col-sm-12">
+            <div class="thumbnail">
+                <div class="caption text-center">
+                    <h3 style="color:red" id="Label_Show_MenuName_Add">Thông tin Slider</h3>
+                </div>
+                <div class="caption card-footer text-center">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="TenSlider">Tên Slider: </label>
+                                <input type="text" value="@Model.TenSlider" class="form-control" id="TenSlider">
+                            </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LoaiSlider, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LoaiSlider, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LoaiSlider, "", new { @class = "text-danger" })
+                            <div class="form-group col-md-12">
+                                <label for="TenSlider">Mô tả: </label>
+                                <textarea name="NoiDung" class="form-control" id="nd">@Model.MoTaSlider</textarea>
+                                <script>CKEDITOR.replace('nd');</script>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="LienKet">Liên kết: </label>
+                                <input type="text" value="@Model.LienKet" class="form-control" id="LienKet">
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="LoaiSlider">Loại Slider: </label>
+                                <input type="text" value="@Model.LoaiSlider" class="form-control" id="LoaiSlider">
+                            </div>
+                            <div class="form-group col-md-12">
+
+                                @Html.EditorFor(model => model.HienThi)
+                                <label class="form-check-label" for="HienThi">
+                                    Hiển thị
+                                </label>
+                            </div>
+
+
+
+
+                        </div>
+
+                        <button type="button" id="Them_Button" class="btn btn-primary">Xác nhận thêm</button>
+                    </form>
+                </div>
             </div>
+
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+    </div>
+
+
+
+
+
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Slider</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.MaSlider)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TenSlider, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TenSlider, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TenSlider, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Anh, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Anh, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Anh, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MoTaSlider, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MoTaSlider, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MoTaSlider, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LienKet, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LienKet, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LienKet, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.HienThi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HienThi)
+                        @Html.ValidationMessageFor(model => model.HienThi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LoaiSlider, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LoaiSlider, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LoaiSlider, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+
+    <script>
+        var $image = $('#image');
+        $image.cropper({
+
+            data: { //define cropbox size
+                width: 1920,
+                height: 500,
+            },
+            autoCropArea: 3.84,
+            initialAspectRatio: 1,
+            dragMode: 'move',
+            crop: function (event) {
+                $("#width").val(event.detail.width);
+                $("#height").val(event.detail.height);
+                console.log(event.detail.x);
+                console.log(event.detail.y);
+                console.log(event.detail.width);
+                console.log(event.detail.height);
+                console.log(event.detail.rotate);
+                console.log(event.detail.scaleX);
+                console.log(event.detail.scaleY);
+            }
+        });
+
+        // Get the Cropper.js instance after initialized
+        var cropper = $image.data('cropper');
+    </script>
